@@ -11,10 +11,10 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -25,7 +25,17 @@ Route::get('/', function () {
 | kernel and includes session state, CSRF protection, and more.
 |
 */
+//Route::get('/timeline', function () {
+//    $x = 0;
+//    return 'hello';
+////        return view('welcome');
+//});
+Route::get('timeline', 'timelineController@gettimeline');
 
 Route::group(['middleware' => ['web']], function () {
     //
+    Route::get('/home', function () {
+        return view('welcome');
+    });
+
 });
