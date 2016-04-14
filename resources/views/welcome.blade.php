@@ -62,11 +62,7 @@
                                 <div class="input-group">
                                     {{--<input type="text" class="form-control" aria-label="Text input with multiple buttons"> --}}
                                         <select class="js-example-basic-multiple form-control" multiple="multiple" name="tags[]">
-                                            <option value="Redes">Redes</option>
-                                            <option value="Erbol">Erbol</option>
-                                            <option value="Transito">Transito</option>
-                                            <option value="Deportes">Deportes</option>
-                                            <option value="Accidente">Accidente</option>
+                                            
                                         </select>
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-info" aria-label="Ayuda">
@@ -103,7 +99,10 @@
         </div>
 
         <script type="text/javascript">
-          $('select').select2();
+          $('select').select2({
+                  placeholder: "Escribe los tags que desees buscar",
+                      tags: true
+                  });
 
 
         </script>

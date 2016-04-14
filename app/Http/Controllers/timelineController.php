@@ -57,6 +57,8 @@ class timelineController extends Controller
 
         $base = json_decode($resp);
 
+        if (!empty($base->result) && $base->result == "No encontrados.")
+            return $base->result;
 
         return $base;
 
