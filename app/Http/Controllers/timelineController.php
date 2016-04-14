@@ -22,12 +22,27 @@ class timelineController extends Controller
 //        }
         //Set tags name
         $tagsArray = $request->input('tags');
-        if(empty($tagsArray)){
-            return redirect('/');
-//                ->withInput()
-//                ->withErrors($validator);
+        $base = null;
+        if(!empty($tagsArray)){
+            $base = $this->getData($tagsArray);
         }
 
+        if(!$base){
+            $base = $this->getData(array('gobierno'));
+        }
+        if(!$base){
+            return 'Server Error';
+        }
+        $json = $this->convertToTimelineFormat($base);
+        return view('welcome', [
+            'json' => json_encode($json),
+        ]);
+//        return $base;
+
+        //
+    }
+
+    public function getData($tagsArray){
         //Config Server
         $server = 'http://www.erbol.com.bo/timeline/tags/';
         // Strip tags
@@ -58,10 +73,41 @@ class timelineController extends Controller
         $base = json_decode($resp);
 
         if (!empty($base->result) && $base->result == "No encontrados.")
-            return $base->result;
-
+            return false;
         return $base;
-
-        //
     }
+
+    public function convertToTimelineFormat ($base){
+
+        $json = [];
+        $events = [];
+
+        $c = 0;
+        foreach ($base as $row){
+//            gmdate("Y-m-d\TH:i:s\Z", $row->created);
+//            Handling Dates
+//            $events[$c]['start_date']=date($row->created);
+            $events[$c]['start_date']['year']=gmdate("Y", $row->created);
+            $events[$c]['start_date']['month']=gmdate("m", $row->created);
+            $events[$c]['start_date']['day']=gmdate("d", $row->created);
+
+//            Handling Titles
+            $events[$c]['text']['headline']=$row->title;
+            $events[$c]['text']['text']=$row->lead;
+
+//            Handling Media
+            if(!empty($row->photo) && !is_array($row->photo)){
+                $events[$c]['media']['url']=$row->photo;
+                $events[$c]['media']['caption']=!empty($row->caption)?$row->caption :"";
+
+            }
+
+
+            $c++;
+        }
+        $json['events']=$events;
+        return json_encode($json);
+
+    }
+
 }

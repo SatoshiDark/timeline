@@ -18,39 +18,13 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
 
-        {{--<style>--}}
-            {{--html, body {--}}
-                {{--height: 100%;--}}
-            {{--}--}}
-
-            {{--body {--}}
-                {{--margin: 0;--}}
-                {{--padding: 0;--}}
-                {{--width: 100%;--}}
-                {{--display: table;--}}
-                {{--font-weight: 100;--}}
-                {{--font-family: 'Lato';--}}
-                {{--background-color: #080808;--}}
-                {{--color: #dddddd;--}}
-            {{--}--}}
-
-            {{--.container {--}}
-                {{--text-align: center;--}}
-                {{--display: table-cell;--}}
-                {{--vertical-align: middle;--}}
-            {{--}--}}
-
-            {{--.content {--}}
-                {{--text-align: center;--}}
-                {{--display: inline-block;--}}
-            {{--}--}}
-
-            {{--.title {--}}
-                {{--font-size: 96px;--}}
-            {{--}--}}
-        {{--</style>--}}
     </head>
     <body>
+    {{--<nav class="navbar navbar-inverse navbar-fixed-top">--}}
+        {{--<div class="container">--}}
+            {{--<h1>Timeline!</h1>--}}
+        {{--</div>--}}
+    {{--</nav>--}}
         <div class="container">
             <div class="content">
             <form action="{{ url('/timeline') }}" method="GET" class="form-horizontal">
@@ -62,7 +36,7 @@
                                 <div class="input-group">
                                     {{--<input type="text" class="form-control" aria-label="Text input with multiple buttons"> --}}
                                         <select class="js-example-basic-multiple form-control" multiple="multiple" name="tags[]">
-                                            
+
                                         </select>
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-info" aria-label="Ayuda">
@@ -70,13 +44,11 @@
                                             <button type="submit" class="btn btn-primary">Enviar</button>
                                         </div>
                                     </div>
-                                    {{--<select class="js-data-example-ajax">--}}
-                                      {{--<option value="3620194" selected="selected">select2/select2</option>--}}
-                                    {{--</select>--}}
+
                             </div>
-                            <div class="col-lg-12">
-                            <iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1YhqpF_vZnYYW4clqpT6zOdbAcZPBhwRc6IQpieJ5ulA&font=Default&lang=en&initial_zoom=2&height=650' width='100%' height='650' frameborder='0'></iframe>
-                            </div>
+                            {{--<div class="col-lg-12">--}}
+                            {{--<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1YhqpF_vZnYYW4clqpT6zOdbAcZPBhwRc6IQpieJ5ulA&font=Default&lang=en&initial_zoom=2&height=650' width='100%' height='650' frameborder='0'></iframe>--}}
+                            {{--</div>--}}
 
                                 <script type="text/javascript">
                                 $(".js-example-basic-multiple").select2();
@@ -84,18 +56,10 @@
 
                                 </script>
 
-            {{--<div class="form-group">--}}
-                {{--<div class="col-sm-offset-3 col-sm-6">--}}
-                    {{--<button type="submit" class="btn btn-default">--}}
-                        {{--<i class="fa fa-plus"></i> Get PM OAuth--}}
-                    {{--</button>--}}
-                {{--</div>--}}
-            {{--</div>--}}
         </form>
-                            <div id='timeline-embed' style="width: 100%; height: 600px"></div>
+                            <div id='timeline' style="width: 100%; height: 600px"></div>
 
             </div>
-
         </div>
 
         <script type="text/javascript">
@@ -119,8 +83,20 @@
                 start_at_end: true,
                 timenav_height: 250
             };
+
 //            timeline = new TL.Timeline('timeline-embed',
 //                    'https://docs.google.com/spreadsheets/d/1cWqQBZCkX9GpzFtxCWHoqFXCHg-ylTVUWlnrdYMzKUI/pubhtml',additionalOptions);
+        </script>
+        <script>
+            var totoro = {!! empty($json)?"'marktwain.json'":"JSON.parse($json);" !!};
+            var timeline = new TL.Timeline('timeline', totoro, {
+                start_at_end: true,
+                language: 'es',
+                timenav_mobile_height_percentage: 40,
+                timenav_height_percentage: 25
+//                timenav_position: 'top',
+//                timenav_height: 250
+            });
         </script>
     </body>
 </html>

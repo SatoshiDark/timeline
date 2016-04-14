@@ -12,9 +12,7 @@
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'timelineController@gettimeline');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -35,7 +33,7 @@ Route::get('timeline', 'timelineController@gettimeline');
 Route::group(['middleware' => ['web']], function () {
     //
     Route::get('/home', function () {
-        return view('welcome');
+        return redirect('welcome');
     });
 
 });
