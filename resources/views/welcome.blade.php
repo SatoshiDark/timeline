@@ -93,8 +93,9 @@
                 start_at_end: true,
                 language: 'es',
                 timenav_mobile_height_percentage: 40,
+                timenav_position: 'top',
                 timenav_height_percentage: 25
-//                timenav_position: 'top',
+
 //                timenav_height: 250
             });
         </script>

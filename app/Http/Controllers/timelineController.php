@@ -48,9 +48,9 @@ class timelineController extends Controller
         // Strip tags
         $div = '%2C';
         $tags = '';
-        $last_tag = array_pop($tagsArray);
+        $last_tag = rawurlencode(array_pop($tagsArray));
         foreach ($tagsArray as $tag){
-            $tags = $tags . $tag . $div;
+            $tags = $tags . rawurlencode($tag) . $div;
         }
         $tags=$tags . $last_tag;
 
