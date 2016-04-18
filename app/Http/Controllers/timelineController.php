@@ -110,4 +110,40 @@ class timelineController extends Controller
 
     }
 
+    public function getTypeaheadTags(Request $request){
+        $input = $request->all();
+        $server = 'http://www.erbol.com.bo/taxonomy/autocomplete/field_tags/';
+        $q= $input['q'];
+
+        $url=$server.$q;
+
+        // Get cURL resource
+        $curl = curl_init();
+// Set some options - we are passing in a useragent too here
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $url,
+            CURLOPT_USERAGENT => 'cURL Request'
+        ));
+// Send the request & save response to $resp
+        $resp = curl_exec($curl);
+// Close request to clear up some resources
+        curl_close($curl);
+
+        $format = array();
+        $c=0;
+        $resp = json_decode($resp);
+        if (!empty($resp)){
+            foreach ($resp as $row){
+                $format[$c]['id']= $row;
+                $format[$c]['name']= $row;
+                $format[$c]['value']= $row;
+                $c++;
+            }
+        }
+
+
+        return json_encode($format);
+    }
+
 }

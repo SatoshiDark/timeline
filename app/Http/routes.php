@@ -29,6 +29,7 @@ Route::get('/', 'timelineController@gettimeline');
 ////        return view('welcome');
 //});
 Route::get('timeline', 'timelineController@gettimeline');
+Route::get('tago', 'timelineController@getTypeaheadTags');
 
 Route::group(['middleware' => ['web']], function () {
     //
