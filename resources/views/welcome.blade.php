@@ -3,132 +3,127 @@
 <head>
     <title>Timeline</title>
     <link title="timeline-styles" rel="stylesheet" href="//cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="jquery-2.2.3.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-            crossorigin="anonymous"></script>
-    <script src="http://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,500,600,700,200,100,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles-responsive.css">
+    <link rel="stylesheet" href="assets/css/themes/theme-style7.css">
+
+
+    <link rel="stylesheet" href="assets/plugins/iCheck/skins/all.css">
+
+    <link rel="stylesheet" href="assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css">
+
+    <link rel="stylesheet" href="assets/plugins/animate.css/animate.min.css">
+
+    <link rel="stylesheet" href="assets/css/plugins.css">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+
+<style>
+    #he{
+        height: 80px;
+    }
+
+</style>
 
 </head>
-<body>
+
+<body class="layout-boxed">
+
+<header class="topbar navbar navbar-inverse navbar-fixed-top inner" id="he">
+    <div class="container">
+    
+     <div>
+        <img src="images/logoerbol.svg"  alt="" style="width: 100px">  
+        
+      </div>    
+        <div class="navbar-header">
+
+        </div>
+        <div class="topbar-tools" id="bs-example-navbar-collapse-1">
+        </div>
+    </div>
+</header>
+
+
+
+<br><br><br><br>
+
 <div class="container">
-    <div class="content">
-        <form action="{{ url('/timeline') }}"
+
+
+         <form action="{{ url('/timeline') }}"
               method="GET"
-              class="form-horizontal">
+              role="search"
+              class="navbar-form navbar-left">
+
             <div class="title"><h1>Timeline</h1></div>
             <h2>Ingresa los criterios de busqueda</h2>
 
-            <div class="col-lg-12">
-                <div class="input-group">
+            <div class="form-group">
                     <select class="js-example-basic-multiple form-control"
                             multiple="multiple"
-                            id="tagSelect" name="tags[]">
-                        {{--<option value="3620194" selected="selected">select2/select2</option>--}}
+                            id="tagSelect"
+                            name="tags[]"
+                            style="width: 900px" 
+                            >
                     </select>
-
-                    <div class="input-group-btn">
-                        <button type="button"
-                                class="btn btn-info"
-                                aria-label="Ayuda">
-                                <span class="glyphicon glyphicon-question-sign">
-                                </span>
-                        </button>
-                        <button type="submit"
-                                class="btn btn-primary">
-                            Enviar
-                        </button>
-                    </div>
-                </div>
+                
             </div>
-
-
+            <div class="input-group">
+                    
+                    <span class="input-group-btn">
+                        <button type="submit"
+                                id="Buscar" 
+                                class="btn btn-green btn-lg">
+                                <i class="fa fa-search"></i>
+                                            Buscar
+                        </button>
+                    </span>
+                </div>
         </form>
+
+
+
+    <div class="content" id="timelinediv">
+       
         <br><br><br>
 
         <div id='timeline' style="width: 100%; height: 600px"></div>
 
     </div>
+
+<footer class="inner">
+                <div class="footer-inner">
+                    <div class="pull-left">
+                        2016 &copy; Periódico Digital ERBOL
+                    </div>
+                    <div class="pull-right">
+                        <span class="go-top"><i class="fa fa-chevron-up"></i></span>
+                    </div>
+                </div>
+</footer>
 </div>
 
-<script type="text/javascript">
-    var lolox = "";
-    function formatRepo(repo) {
-        if (repo.loading) return repo.name;
-
-        var markup = '<div class="clearfix">' +
-//                '<div class="col-sm-1">' +
-//                '<img src="' + repo.owner.avatar_url + '" style="max-width: 100%" />' +
-//                '</div>' +
-                '<div clas="col-sm-10">' +
-                '<div class="clearfix">' +
-                '<div class="col-sm-6">' + repo.name + '</div>' +
-//                '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + repo.forks_count + '</div>' +
-//                '<div class="col-sm-2"><i class="fa fa-star"></i> ' + repo.stargazers_count + '</div>' +
-                '</div>';
-
-        if (repo.name) {
-            markup += '<div>' + repo.name + '</div>';
-        }
-        markup += '</div></div>';
-        return markup;
-    }
-
-    function formatRepoSelection(repo) {
-        return (repo.name);
-    }
-    $('.js-example-basic-multiple').select2({
-        placeholder: "Escribe los tags que desees buscar",
-        multiple: true,
-        ajax: {
-//            url: "http://www.erbol.com.bo/taxonomy/autocomplete/field_tags/" + that.lolox,
-            url: "tago",
-            type: 'GET',
-            dataType: 'json',
-            delay: 250,
-            jsonp: false,
-            data: function(params){
-//                queryParameters = {
-//                    q: params.term
-//                };
-//                return queryParameters;
-                return {q: params.term};
-            },
-
-            processResults: function (data, params) {
-                // parse the results into the format expected by Select2
-                // since we are using custom formatting functions we do not need to
-                // alter the remote JSON data, except to indicate that infinite
-                // scrolling can be used
-
-                console.log(data);
-                params.page = params.page || 1;
-
-                return {
-                    results: data,
-                    pagination: {
-                        more: (params.page * 30) < data.total_count
-                    }
-                };
-            },
-            cache: true
-        },
-        escapeMarkup: function (markup) {
-            return markup;
-        }, // let our custom formatter work
-        minimumInputLength: 1,
-        templateResult: formatRepo, // omitted for brevity, see the source of this page
-        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-
-    });
 
 
-</script>
 
+
+<script src="jquery-2.2.3.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+    
+<script src="http://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+
+
+<script src="js/script.js"/>
 
 <script type="text/javascript">
     var additionalOptions = {
@@ -148,6 +143,18 @@
     });
 </script>
 
+<script src="assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js"></script>
+<script src="assets/plugins/jquery.scrollTo/jquery.scrollTo.min.js"></script>
+<script src="assets/plugins/velocity/jquery.velocity.min.js"></script>
+<script src="assets/plugins/perfect-scrollbar/src/perfect-scrollbar.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script>
+        jQuery(document).ready(function() {
+            Main.init();
+                
+        });
+    </script>
 
 </body>
 </html>
