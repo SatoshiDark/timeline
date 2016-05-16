@@ -38,8 +38,9 @@
     <div class="container">
     
      <div>
-        <img src="images/logoerbol.svg"  alt="" style="width: 100px">  
-        
+        <img src=""  alt="Logo" style="width: 100px">
+        {{--<img src="images/logoerbol1.svg"  alt="Logo" style="width: 100px">--}}
+
       </div>    
         <div class="navbar-header">
 
@@ -100,7 +101,7 @@
 <footer class="inner">
                 <div class="footer-inner">
                     <div class="pull-left">
-                        2016 &copy; Periódico Digital ERBOL
+                        2016 &copy; <a href="http://www.mastin.org/">Mastin tips</a>
                     </div>
                     <div class="pull-right">
                         <span class="go-top"><i class="fa fa-chevron-up"></i></span>
@@ -123,19 +124,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
 
 
-<script src="js/script.js"/>
+<script src="js/script.js"></script>
 
-<script type="text/javascript">
-    var additionalOptions = {
-        start_at_end: true,
-        timenav_height: 250
-    };
-
-</script>
 <script>
     var totoro = {!!empty($json) ? "'marktwain.json'" : "JSON.parse($json);"!!};
     var timeline = new TL.Timeline('timeline', totoro, {
         start_at_end: true,
+        scale_factor: 0.5,
         language: 'es',
         timenav_mobile_height_percentage: 40,
         timenav_position: 'top',

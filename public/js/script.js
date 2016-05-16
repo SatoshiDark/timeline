@@ -5,9 +5,6 @@ function formatRepo(repo) {
                 '<div class="clearfix">' +
                 '<div class="col-sm-6">' + repo.name + '</div>' +
                 '</div>';
-        if (repo.name) {
-            markup += '<div>' + repo.name + '</div>';
-        }
         markup += '</div></div>';
         return markup;
 }
@@ -25,7 +22,7 @@ $("#Buscar").click(function(){
 
 
 $('.js-example-basic-multiple').select2({
-    placeholder: "Tema de Interes",
+    placeholder: "Escribe y selecciona el tema de Interes",
     multiple: true,
     ajax: {
             url: "tago",

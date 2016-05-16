@@ -93,6 +93,7 @@ class timelineController extends Controller
 
 //            Handling Titles
             $events[$c]['text']['headline']=$row->title;
+            $events[$c]['text']['headline']="<a href='".$row->url."'>".$row->title."</a>";
             $events[$c]['text']['text']=$row->lead;
 
 //            Handling Media
