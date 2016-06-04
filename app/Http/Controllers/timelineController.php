@@ -87,14 +87,16 @@ class timelineController extends Controller
 //            gmdate("Y-m-d\TH:i:s\Z", $row->created);
 //            Handling Dates
 //            $events[$c]['start_date']=date($row->created);
-            $events[$c]['start_date']['year']=gmdate("Y", $row->created);
-            $events[$c]['start_date']['month']=gmdate("m", $row->created);
-            $events[$c]['start_date']['day']=gmdate("d", $row->created);
+            if(!empty($row->created)){
+                $events[$c]['start_date']['year']=gmdate("Y", $row->created);
+                $events[$c]['start_date']['month']=gmdate("m", $row->created);
+                $events[$c]['start_date']['day']=gmdate("d", $row->created);
+            }
 
 //            Handling Titles
-            $events[$c]['text']['headline']=$row->title;
-            $events[$c]['text']['headline']="<a href='".$row->url."'>".$row->title."</a>";
-            $events[$c]['text']['text']=$row->lead;
+            $events[$c]['text']['headline']=!empty($row->title)?$row->title:'';
+            $events[$c]['text']['headline']="<a href='".!empty($row->url)?$row->url:"#"."'>".!empty($row->title)?$row->title:""."</a>";
+            $events[$c]['text']['text']=!empty($row->lead) ? $row->lead : '';
 
 //            Handling Media
             if(!empty($row->photo) && !is_array($row->photo)){
