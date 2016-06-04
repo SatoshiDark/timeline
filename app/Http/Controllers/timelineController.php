@@ -94,8 +94,10 @@ class timelineController extends Controller
             }
 
 //            Handling Titles
+            $url = empty($row->url)? '#':$row->url;
+            $title = empty($row->title) ? '' : $row->title;
             $events[$c]['text']['headline']=!empty($row->title)?$row->title:'';
-            $events[$c]['text']['headline']="<a href='".!empty($row->url)?$row->url:"#"."'>".!empty($row->title)?$row->title:""."</a>";
+            $events[$c]['text']['headline']="<a href='".$url."'>".$title."</a>";
             $events[$c]['text']['text']=!empty($row->lead) ? $row->lead : '';
 
 //            Handling Media
