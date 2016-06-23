@@ -8,54 +8,54 @@ use App\Http\Requests;
 
 class timelineController extends Controller
 {
-    //
+    /**
+     * Constructs timeline and returns if there's errors with input
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
     public function gettimeline(Request $request)
     {
-//        $validator = Validator::make($request->all(), [
-//            'tags' => 'required',
-//
-//        ]);
-//        if ($validator->fails()) {
-//            return redirect('/')
-//                ->withInput()
-//                ->withErrors($validator);
-//        }
-        //Set tags name
+        //set Tag names
         $tagsArray = $request->input('tags');
         $base = null;
-        if(!empty($tagsArray)){
+        $response = "";
+        if (!empty($tagsArray)) {
             $base = $this->getData($tagsArray);
         }
 
-        if(!$base){
+        if (!$base) {
             $base = $this->getData(array('gobierno'));
+            if (!empty($tagsArray)) {
+                $response = "No se encontraron resultados";
+            }
         }
-        if(!$base){
+
+        if (!$base) {
             return 'Server Error';
         }
         $json = $this->convertToTimelineFormat($base);
         return view('welcome', [
             'json' => json_encode($json),
+            'response' => $response
         ]);
-//        return $base;
 
-        //
     }
 
-    public function getData($tagsArray){
+    public function getData($tagsArray)
+    {
         //Config Server
         $server = 'http://www.erbol.com.bo/timeline/tags/';
         // Strip tags
         $div = '%2C';
         $tags = '';
         $last_tag = rawurlencode(array_pop($tagsArray));
-        foreach ($tagsArray as $tag){
+        foreach ($tagsArray as $tag) {
             $tags = $tags . rawurlencode($tag) . $div;
         }
-        $tags=$tags . $last_tag;
+        $tags = $tags . $last_tag;
 
-        $offset = 10;
-        $page = 1;
+        $offset = 20;
+        $page = 0;
         $url = $server . $tags . "/$offset/$page.json";
 // Get cURL resource
         $curl = curl_init();
@@ -77,50 +77,51 @@ class timelineController extends Controller
         return $base;
     }
 
-    public function convertToTimelineFormat ($base){
+    public function convertToTimelineFormat($base)
+    {
 
         $json = [];
         $events = [];
 
         $c = 0;
-        foreach ($base as $row){
+        foreach ($base as $row) {
 //            gmdate("Y-m-d\TH:i:s\Z", $row->created);
 //            Handling Dates
 //            $events[$c]['start_date']=date($row->created);
-            if(!empty($row->created)){
-                $events[$c]['start_date']['year']=gmdate("Y", $row->created);
-                $events[$c]['start_date']['month']=gmdate("m", $row->created);
-                $events[$c]['start_date']['day']=gmdate("d", $row->created);
+            if (!empty($row->created)) {
+                $events[$c]['start_date']['year'] = gmdate("Y", $row->created);
+                $events[$c]['start_date']['month'] = gmdate("m", $row->created);
+                $events[$c]['start_date']['day'] = gmdate("d", $row->created);
             }
 
 //            Handling Titles
-            $url = empty($row->url)? '#':$row->url;
+            $url = empty($row->url) ? '#' : $row->url;
             $title = empty($row->title) ? '' : $row->title;
-            $events[$c]['text']['headline']=!empty($row->title)?$row->title:'';
-            $events[$c]['text']['headline']="<a href='".$url."'>".$title."</a>";
-            $events[$c]['text']['text']=!empty($row->lead) ? $row->lead : '';
+            $events[$c]['text']['headline'] = !empty($row->title) ? $row->title : '';
+            $events[$c]['text']['headline'] = "<a href='" . $url . "'>" . $title . "</a>";
+            $events[$c]['text']['text'] = !empty($row->lead) ? $row->lead : '';
 
 //            Handling Media
-            if(!empty($row->photo) && !is_array($row->photo)){
-                $events[$c]['media']['url']=$row->photo;
-                $events[$c]['media']['caption']=!empty($row->caption)?$row->caption :"";
+            if (!empty($row->photo) && !is_array($row->photo)) {
+                $events[$c]['media']['url'] = $row->photo;
+                $events[$c]['media']['caption'] = !empty($row->caption) ? $row->caption : "";
 
             }
 
 
             $c++;
         }
-        $json['events']=$events;
+        $json['events'] = $events;
         return json_encode($json);
 
     }
 
-    public function getTypeaheadTags(Request $request){
+    public function getTypeaheadTags(Request $request)
+    {
         $input = $request->all();
         $server = 'http://www.erbol.com.bo/taxonomy/autocomplete/field_tags/';
-        $q= $input['q'];
-
-        $url=$server.$q;
+        $q = str_replace(' ', '%20', $input['q']);
+        $url = $server . $q;
 
         // Get cURL resource
         $curl = curl_init();
@@ -136,13 +137,13 @@ class timelineController extends Controller
         curl_close($curl);
 
         $format = array();
-        $c=0;
+        $c = 0;
         $resp = json_decode($resp);
-        if (!empty($resp)){
-            foreach ($resp as $row){
-                $format[$c]['id']= $row;
-                $format[$c]['name']= $row;
-                $format[$c]['value']= $row;
+        if (!empty($resp)) {
+            foreach ($resp as $row) {
+                $format[$c]['id'] = $row;
+                $format[$c]['name'] = $row;
+                $format[$c]['value'] = $row;
                 $c++;
             }
         }

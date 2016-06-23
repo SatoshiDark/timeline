@@ -64,6 +64,9 @@
 
             <div class="title"><h1>Timeline</h1></div>
             <h2>Ingresa los criterios de busqueda</h2>
+             @if(!empty($response))
+                 <h3>No se encontraron resultados :(</h3>
+             @endif
 
             <div class="form-group">
                     <select class="js-example-basic-multiple form-control"
