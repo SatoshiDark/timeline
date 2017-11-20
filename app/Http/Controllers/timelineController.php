@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Storage;
 
 class timelineController extends Controller
 {
@@ -29,7 +30,8 @@ class timelineController extends Controller
         }
 
         if (!$base) {
-            $base = $this->getData('gobierno');
+            $contents = json_decode(Storage::disk('localDB')->get('topic.json'));
+            $base = $this->getData(($contents->principalTopic)?$contents->principalTopic:'gobierno');
             if (!empty($tagsArray)) {
                 $response = "No se encontraron resultados";
             }

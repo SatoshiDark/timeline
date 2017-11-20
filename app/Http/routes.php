@@ -14,6 +14,10 @@
 
 Route::get('/', 'timelineController@gettimeline');
 Route::get('/inicio', 'timelineController@inicio');
+// ownerController for get and post the week topic
+Route::resource('t0p1c','ownerController');
+Route::get('t0p1c-get', 'ownerController@getDataList');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
